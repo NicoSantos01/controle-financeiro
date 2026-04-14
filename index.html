@@ -90,10 +90,14 @@
 </div>
 
 <script>
+
+// 🔢 carrega os dados salvos no navegador (ou começa com 0)
 let saldo = Number(localStorage.getItem("saldo")) || 0
 let totalGanho = Number(localStorage.getItem("totalGanho")) || 0
 let totalGasto = Number(localStorage.getItem("totalGasto")) || 0
 
+
+// 💬 cria e adiciona uma mensagem no chat (usuário ou sistema)
 function adicionarMensagem(texto, tipo){
     let chat = document.getElementById("chat")
 
@@ -113,9 +117,12 @@ function adicionarMensagem(texto, tipo){
     chat.appendChild(msg)
     chat.scrollTop = chat.scrollHeight
 
+    // salva o chat no navegador
     localStorage.setItem("chat", chat.innerHTML)
 }
 
+
+// 🧠 identifica automaticamente a categoria do gasto
 function detectarCategoria(texto){
     texto = texto.toLowerCase()
 
@@ -127,6 +134,8 @@ function detectarCategoria(texto){
     return texto || "outros"
 }
 
+
+// 💸 interpreta uma mensagem como GASTO e desconta do saldo
 function interpretarGasto(texto, valor){
     if (valor <= 0){
         adicionarMensagem("Não entendi o valor 😅", "sistema")
@@ -148,6 +157,8 @@ function interpretarGasto(texto, valor){
     salvar()
 }
 
+
+// 💰 interpreta uma mensagem como GANHO e soma no saldo
 function interpretarGanho(texto, valor){
     if (valor <= 0){
         adicionarMensagem("Não entendi o valor 😅", "sistema")
@@ -164,14 +175,20 @@ function interpretarGanho(texto, valor){
     salvar()
 }
 
+
+// 📊 mostra o saldo atual no chat
 function mostrarSaldo(){
     adicionarMensagem(`Nico, seu saldo é R$${saldo} 💰`, "sistema")
 }
 
+
+// 📈 mostra resumo completo (saldo, ganhos e gastos)
 function mostrarResumo(){
     adicionarMensagem(`Saldo: R$${saldo} | Ganho: R$${totalGanho} | Gasto: R$${totalGasto}`, "sistema")
 }
 
+
+// ❓ mostra botões de ajuda dentro do chat
 function mostrarAjuda(){
     let chat = document.getElementById("chat")
 
@@ -188,6 +205,8 @@ function mostrarAjuda(){
     chat.appendChild(msg)
 }
 
+
+// 🧹 limpa todos os dados (saldo, histórico, tudo)
 function limparTudo(){
     saldo = 0
     totalGanho = 0
@@ -197,19 +216,24 @@ function limparTudo(){
     localStorage.clear()
 }
 
+
+// 💾 salva os dados no navegador
 function salvar(){
     localStorage.setItem("saldo", saldo)
     localStorage.setItem("totalGanho", totalGanho)
     localStorage.setItem("totalGasto", totalGasto)
 }
 
-// EVENTO CORRIGIDO
+
+// ⌨️ detecta quando o usuário aperta ENTER
 document.getElementById("comando").addEventListener("keydown", function(e){
     if (e.key === "Enter"){
         executarComando()
     }
 })
 
+
+// 🧠 função principal: interpreta o que o usuário digitou
 function executarComando(){
     let input = document.getElementById("comando")
     let comando = input.value.toLowerCase().trim()
@@ -218,6 +242,7 @@ function executarComando(){
 
     adicionarMensagem(comando, "usuario")
 
+    // pega número da frase (ex: "uber 25" → 25)
     let valor = Number(comando.replace(/\D/g, ""))
 
     if (comando.includes("ganhei") || comando.includes("recebi")){
@@ -245,11 +270,13 @@ function executarComando(){
     input.value = ""
 }
 
-// carregar chat salvo
+
+// 🔄 carrega o chat salvo quando abre a página
 let chatSalvo = localStorage.getItem("chat")
 if (chatSalvo){
     document.getElementById("chat").innerHTML = chatSalvo
 }
+
 </script>
 
 </body>
