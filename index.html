@@ -104,14 +104,23 @@ function adicionarMensagem(texto, tipo){
     let msg = document.createElement("div")
     msg.classList.add("mensagem", tipo)
 
-    let hora = new Date().toLocaleTimeString([], {
+    let agora = new Date()
+
+    let data = agora.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit'
+    })
+
+    let hora = agora.toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit'
     })
 
+    let dataHora = data + " " + hora
+
     msg.innerHTML = `
         <div>${texto}</div>
-        <small style="font-size:10px; opacity:0.6">${hora}</small>
+        <small>${dataHora}</small>
     `
 
     chat.appendChild(msg)
